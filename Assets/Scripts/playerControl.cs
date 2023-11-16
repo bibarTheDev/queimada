@@ -9,14 +9,17 @@ public class playerControl : MonoBehaviour
     public float throwStrength = 1.0f;
     public float pickupRange = 1.0f;
 
-    public GameObject bolaTeste = null;
+    private GameObject bolaHeld = null;
+    private bolaBehaviour bolaHeldController = null;
+    private Transform bolaHeldTransform = null;
 
-    private GameObject bolaHold = null;
+    private Transform heldBolaPostion = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        // posicao do objeto bolaPosition
+        heldBolaPostion = gameObject.transform.GetChild(1);
     }
 
     // Update is called once per frame
@@ -24,23 +27,25 @@ public class playerControl : MonoBehaviour
     {
         Vector3 moveDelta = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         transform.Translate(moveDelta * moveSpeed * Time.deltaTime);
-        if(bolaHold != null){
+        if(bolaHeldTransform != null){
             // TODO: resolver esses getComponents
-            bolaHold.GetComponent<Transform>().Translate(moveDelta * moveSpeed * Time.deltaTime);
+            // move a bola ate o objeto bolaPosition
+            bolaHeldTransform.position = heldBolaPostion.position;
         }
 
         if(Input.GetKey(KeyCode.Space)){
-            pickBola();
-        }
-        
-        if(Input.GetKey(KeyCode.LeftControl)){
-            throwBola();
+            if(bolaHeld == null){
+                pickBola();
+            }
+            else {
+                throwBola();
+            }
         }
     } 
 
     void pickBola()
     {
-        if(bolaHold != null){
+        if(bolaHeld != null){
             return;
         }
         
@@ -50,25 +55,38 @@ public class playerControl : MonoBehaviour
 
         if(bola != null){
             // segura a bola (se estiver disponivel)
-            // TODO: resolver esses getComponents
-            bolaHold = bola.GetComponent<bolaBehaviour>().bePickedUp();
-
+            bolaHeldTransform = bola.GetComponent<Transform>();
+            bolaHeldController = bola.GetComponent<bolaBehaviour>();
+            bolaHeld = bolaHeldController.bePickedUp();
         }
     }
 
     GameObject checkBolaNear()
     {
-        return bolaTeste;
+        GameObject[] bolas = GameObject.FindGameObjectsWithTag("Bola");
+        Debug.Log(bolas.Length);
+        foreach (GameObject b in bolas){
+            // se esta perto o suficiente E nao esta sendo segurado
+            if (Vector3.Distance(transform.position, b.transform.position) < pickupRange
+                && !b.GetComponent<bolaBehaviour>().getIsHeld()){
+                    return b;
+            }
+        }
+
+        return null;
     }
 
     void throwBola()
     {
-        if(bolaHold == null){
+        if(bolaHeld == null){
             return;
         }
 
         // TODO: resolver esses getComponents
-        bolaHold.GetComponent<bolaBehaviour>().beThrown();
-        bolaHold = null;
+        bolaHeldController.beThrown();
+        
+        bolaHeld = null;
+        bolaHeldController = null;
+        bolaHeldTransform = null;
     }
 }

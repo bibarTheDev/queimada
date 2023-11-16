@@ -19,6 +19,8 @@ public class bolaBehaviour : MonoBehaviour
         
     }
 
+    public bool getIsHeld() { return isHeld; }
+
     public GameObject bePickedUp()
     {    
         if(isHeld){
