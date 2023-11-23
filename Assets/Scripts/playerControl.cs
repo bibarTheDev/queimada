@@ -2,6 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// agrupa componentes da bola
+public class BolaHeld {
+    public GameObject obj = null;
+    public bolaBehaviour controller = null;
+    public Transform transform = null;
+
+    public BolaHeld(GameObject ob, bolaBehaviour ct, Transform tr)
+    {
+        this.obj = ob;
+        this.controller = ct;
+        this.transform = tr;
+    }
+}
+
 public class playerControl : MonoBehaviour
 {
     [Header("Player Stats")]
@@ -9,9 +24,7 @@ public class playerControl : MonoBehaviour
     public float throwStrength = 1.0f;
     public float pickupRange = 1.0f;
 
-    private GameObject bolaHeld = null;
-    private bolaBehaviour bolaHeldController = null;
-    private Transform bolaHeldTransform = null;
+    private BolaHeld bolaHeld = null;
 
     private Transform heldBolaPostion = null;
 
@@ -25,21 +38,18 @@ public class playerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 moveDelta = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 moveDelta = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))/*.normalized*/;
         transform.Translate(moveDelta * moveSpeed * Time.deltaTime);
-        if(bolaHeldTransform != null){
-            // TODO: resolver esses getComponents
+        if(bolaHeld != null){
             // move a bola ate o objeto bolaPosition
-            bolaHeldTransform.position = heldBolaPostion.position;
+            bolaHeld.transform.position = heldBolaPostion.position;
         }
 
         if(Input.GetKey(KeyCode.Space)){
-            if(bolaHeld == null){
-                pickBola();
-            }
-            else {
-                throwBola();
-            }
+            pickBola();
+        }
+        if(Input.GetKey(KeyCode.LeftControl)){
+            throwBola();
         }
     } 
 
@@ -52,28 +62,37 @@ public class playerControl : MonoBehaviour
         // pega a bola mais proxima (se existir)
         GameObject bola = checkBolaNear();
 
-
         if(bola != null){
+
             // segura a bola (se estiver disponivel)
-            bolaHeldTransform = bola.GetComponent<Transform>();
-            bolaHeldController = bola.GetComponent<bolaBehaviour>();
-            bolaHeld = bolaHeldController.bePickedUp();
+            bolaHeld = new BolaHeld(
+                bola,
+                bola.GetComponent<bolaBehaviour>(),
+                bola.GetComponent<Transform>()
+            );
+
+            bolaHeld.controller.bePickedUp();
         }
     }
 
     GameObject checkBolaNear()
     {
         GameObject[] bolas = GameObject.FindGameObjectsWithTag("Bola");
-        Debug.Log(bolas.Length);
+        GameObject selectedBola = null;
+
+        // pickup range age como uma distancia maxima
+        float prevDistance = pickupRange;
+
         foreach (GameObject b in bolas){
-            // se esta perto o suficiente E nao esta sendo segurado
-            if (Vector3.Distance(transform.position, b.transform.position) < pickupRange
-                && !b.GetComponent<bolaBehaviour>().getIsHeld()){
-                    return b;
+            float distance = Vector3.Distance(transform.position, b.transform.position);
+            // se esta mais perto que a ultima E nao esta sendo segurado
+            if (distance < prevDistance && !b.GetComponent<bolaBehaviour>().getIsHeld()){
+                prevDistance = distance;
+                selectedBola = b;
             }
         }
 
-        return null;
+        return selectedBola;
     }
 
     void throwBola()
@@ -82,11 +101,11 @@ public class playerControl : MonoBehaviour
             return;
         }
 
-        // TODO: resolver esses getComponents
-        bolaHeldController.beThrown();
+        // deve pegar a direcao do mouse
+        Vector3 throwDirection = new Vector3(1, 0, 0).normalized * throwStrength;
+
+        bolaHeld.controller.beThrown(throwDirection);
         
         bolaHeld = null;
-        bolaHeldController = null;
-        bolaHeldTransform = null;
     }
 }
