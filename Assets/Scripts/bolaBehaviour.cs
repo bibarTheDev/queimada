@@ -40,8 +40,9 @@ public class bolaBehaviour : MonoBehaviour
     
     public void beThrown(Vector3 arremesso)
     {
+        // reseta qualquer momento e dps adiciona o arremesso (era a gravidade!!)
+        rigidBody.velocity = Vector3.zero;
         rigidBody.AddForce(arremesso);
-        Debug.Log("FORCA");
 
         isHeld = false;
         isLethal = true;
