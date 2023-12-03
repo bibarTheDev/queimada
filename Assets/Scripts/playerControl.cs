@@ -19,6 +19,9 @@ public class BolaHeld {
 
 public class playerControl : MonoBehaviour
 {
+    [Header("Player Cursor Reference")]
+    public GameObject cursorPos = null;
+
     [Header("Player Stats")]
     public float moveSpeed = 1.0f;
     public float throwStrength = 1.0f;
@@ -31,6 +34,10 @@ public class playerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(cursorPos == null) {
+            Debug.LogWarning("Objeto cursorPos nao foi configurado, impossivel executar");
+        }
+
         // posicao do objeto bolaPosition
         heldBolaPostion = gameObject.transform.GetChild(1);
     }
@@ -101,8 +108,15 @@ public class playerControl : MonoBehaviour
             return;
         }
 
-        // deve pegar a direcao do mouse
-        Vector3 throwDirection = new Vector3(1, 0, 0).normalized * throwStrength;
+        // pega a direcao do player ate o cursor
+        // direcao = referencia - alvo
+        Vector3 throwDirection = cursorPos.transform.position - this.transform.position;
+        Debug.Log(throwDirection);
+        throwDirection.y = 0;
+        Debug.Log(throwDirection);
+        throwDirection = throwDirection.normalized * throwStrength;
+        Debug.Log(throwDirection);
+        
 
         bolaHeld.controller.beThrown(throwDirection);
         
