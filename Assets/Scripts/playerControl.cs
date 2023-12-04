@@ -22,6 +22,9 @@ public class playerControl : MonoBehaviour
     [Header("Player Cursor Reference")]
     public GameObject cursorPos = null;
 
+    [Header("Player Team")]
+    public string playerTeam = "A";
+
     [Header("Player Stats")]
     public float moveSpeed = 1.0f;
     public float throwStrength = 1.0f;
