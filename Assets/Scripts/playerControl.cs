@@ -27,7 +27,7 @@ public class playerControl : playerBehaviour
         if(Input.GetKey(KeyCode.Space)){
             pickBola();
         }
-        if(Input.GetKey(KeyCode.LeftControl)){
+        if(Input.GetMouseButtonDown(0)){
             // pega a direcao do player ate o cursor
             // direcao = referencia - alvo
             Vector3 throwDirection = cursorPos.transform.position - this.transform.position;
