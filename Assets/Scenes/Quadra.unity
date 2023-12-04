@@ -1199,14 +1199,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 916713739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29809a327d04686498bd5d3b060fc1af, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c11e78c7a8f2fa43a9ffd50f326960d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursorPos: {fileID: 1443931604}
   playerTeam: A
-  moveSpeed: 10
+  moveSpeed: 8
   throwStrength: 2000
-  pickupRange: 5
+  pickupRange: 4
+  cursorPos: {fileID: 1443931604}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,7 +1690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e865b68a58325549acf4c3738eaaadf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 963194227}
+  mainCamera: {fileID: 963194227}
   groundRefLayer:
     serializedVersion: 2
     m_Bits: 64

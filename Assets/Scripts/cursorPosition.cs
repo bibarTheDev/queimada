@@ -5,7 +5,7 @@ using UnityEngine;
 public class cursorPosition : MonoBehaviour
 {
     [Header("Mouse references")]
-    public Camera camera = null;
+    public Camera mainCamera = null;
     public LayerMask groundRefLayer = 0;
 
     [Header("Player reference")]
@@ -17,7 +17,7 @@ public class cursorPosition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(camera == null) {
+        if(mainCamera == null) {
             Debug.LogWarning("Objeto camera nao foi configurado, impossivel executar no modo Mouse");
         }
 
@@ -36,7 +36,7 @@ public class cursorPosition : MonoBehaviour
     Vector3 positionAsMouse()
     {
         // casta um raio da camera ate o proximo objeto
-        Ray raio = camera.ScreenPointToRay(Input.mousePosition);
+        Ray raio = mainCamera.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(raio, out RaycastHit hit, float.MaxValue, groundRefLayer)){
             // se posiciona onde o raio acertou
             return hit.point;
