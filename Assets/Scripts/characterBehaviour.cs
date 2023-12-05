@@ -30,12 +30,15 @@ public class playerBehaviour : MonoBehaviour
     protected BolaHeld bolaHeld = null;
 
     protected Transform heldBolaPostion = null;
+    protected CharacterController controller = null;
 
     // Start is called before the first frame update
     protected void Start()
     {
         // posicao do objeto bolaPosition
         heldBolaPostion = gameObject.transform.GetChild(1);
+
+        controller = gameObject.GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -46,7 +49,9 @@ public class playerBehaviour : MonoBehaviour
 
     protected void move(Vector3 moveDelta)
     {
-        transform.Translate(moveDelta * moveSpeed * Time.deltaTime);
+        controller.Move(moveDelta * moveSpeed * Time.deltaTime);
+        // transform.Translate(moveDelta * moveSpeed * Time.deltaTime);
+
         if(bolaHeld != null){
             // move a bola ate o objeto bolaPosition
             bolaHeld.transform.position = heldBolaPostion.position;

@@ -21,7 +21,7 @@ public class playerControl : playerBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 moveDelta = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))/*.normalized*/;
+        Vector3 moveDelta = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
         move(moveDelta);
 
         if(Input.GetKey(KeyCode.Space)){
