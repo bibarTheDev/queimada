@@ -14,9 +14,18 @@ public class bolaBehaviour : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
     }
+    void OnCollisionEnter(Collision coll)
+    {
+        // se colidou com a quadra
+        if(coll.gameObject.tag == "Quadra"){
+            // reseta arremesso
+            throwerTeam = "";
+        }
+    }
+
 
     public bool isBeignHeld() { return isHeld; }
-    public bool isLethal(string playerTeam) { return throwerTeam != playerTeam; }
+    public bool isLethal(string playerTeam) { return throwerTeam != "" && throwerTeam != playerTeam; }
 
     public GameObject bePickedUp(string playerTeam)
     {    
