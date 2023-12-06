@@ -20,7 +20,7 @@ public class BolaHeld {
 public class playerBehaviour : MonoBehaviour
 {
     [Header("Player Team")]
-    public string playerTeam = "A";
+    public string characterTeam = "A";
 
     [Header("Player Stats")]
     public float moveSpeed = 1.0f;
@@ -52,8 +52,8 @@ public class playerBehaviour : MonoBehaviour
         // note que esse eh o colisor presente no objeto Player (e nao o colisor em PlayerBody)
         GameObject obj = coll.gameObject;
 
-        // se foi atingido por uma bola e se ela era lethal
-        if(obj.tag == "Bola" && obj.GetComponent<bolaBehaviour>().getIsLethal()){
+        // se foi atingido por uma bola e se ela era lethal (em relacao a equipe desse personagem)
+        if(obj.tag == "Bola" && obj.GetComponent<bolaBehaviour>().isLethal(characterTeam)){
             Debug.Log("Ai");
         }
     }
@@ -90,7 +90,7 @@ public class playerBehaviour : MonoBehaviour
                 bola.GetComponent<Transform>()
             );
 
-            bolaHeld.controller.bePickedUp();
+            bolaHeld.controller.bePickedUp(characterTeam);
         }
     }
 
@@ -105,7 +105,7 @@ public class playerBehaviour : MonoBehaviour
         foreach (GameObject b in bolas){
             float distance = Vector3.Distance(transform.position, b.transform.position);
             // se esta mais perto que a ultima E nao esta sendo segurado
-            if (distance < prevDistance && !b.GetComponent<bolaBehaviour>().getIsHeld()){
+            if (distance < prevDistance && !b.GetComponent<bolaBehaviour>().isBeignHeld()){
                 prevDistance = distance;
                 selectedBola = b;
             }

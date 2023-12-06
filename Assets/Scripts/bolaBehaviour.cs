@@ -7,7 +7,7 @@ public class bolaBehaviour : MonoBehaviour
     private Rigidbody rigidBody;
 
     private bool isHeld = false;
-    private bool isLethal = false;
+    private string throwerTeam = "";
 
     // Start is called before the first frame update
     void Start()
@@ -15,16 +15,10 @@ public class bolaBehaviour : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool isBeignHeld() { return isHeld; }
+    public bool isLethal(string playerTeam) { return throwerTeam != playerTeam; }
 
-    public bool getIsHeld() { return isHeld; }
-    public bool getIsLethal() { return isLethal; }
-
-    public GameObject bePickedUp()
+    public GameObject bePickedUp(string playerTeam)
     {    
         if(isHeld){
             return null;
@@ -34,7 +28,7 @@ public class bolaBehaviour : MonoBehaviour
         // rigidBody.angularVelocity = Vector3.zero; 
 
         isHeld = true;
-        isLethal = false;
+        throwerTeam = playerTeam;
 
         return gameObject;
     }
@@ -46,6 +40,5 @@ public class bolaBehaviour : MonoBehaviour
         rigidBody.AddForce(arremesso);
 
         isHeld = false;
-        isLethal = true;
     }
 }
