@@ -22,6 +22,7 @@ public class bolaBehaviour : MonoBehaviour
     }
 
     public bool getIsHeld() { return isHeld; }
+    public bool getIsLethal() { return isLethal; }
 
     public GameObject bePickedUp()
     {    

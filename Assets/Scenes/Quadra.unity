@@ -1148,7 +1148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTeam: A
-  moveSpeed: 8
+  moveSpeed: 12
   throwStrength: 2000
   pickupRange: 4
   cursorPos: {fileID: 1443931604}

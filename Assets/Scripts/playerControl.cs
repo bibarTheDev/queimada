@@ -21,8 +21,8 @@ public class playerControl : playerBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 moveDelta = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
-        move(moveDelta);
+        Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        move(direction);
 
         if(Input.GetKey(KeyCode.Space)){
             pickBola();

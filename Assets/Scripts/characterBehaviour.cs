@@ -47,10 +47,24 @@ public class playerBehaviour : MonoBehaviour
         // should implement
     } 
 
-    protected void move(Vector3 moveDelta)
+    protected void OnCollisionEnter(Collision coll)
     {
-        controller.Move(moveDelta * moveSpeed * Time.deltaTime);
-        // transform.Translate(moveDelta * moveSpeed * Time.deltaTime);
+        // note que esse eh o colisor presente no objeto Player (e nao o colisor em PlayerBody)
+        GameObject obj = coll.gameObject;
+
+        // se foi atingido por uma bola e se ela era lethal
+        if(obj.tag == "Bola" && obj.GetComponent<bolaBehaviour>().getIsLethal()){
+            Debug.Log("Ai");
+        }
+    }
+
+    protected void move(Vector3 direction)
+    {
+        if(direction.magnitude > 1){
+            direction.Normalize();
+        }
+        controller.Move(direction * moveSpeed * Time.deltaTime);
+        // transform.Translate(direction * moveSpeed * Time.deltaTime);
 
         if(bolaHeld != null){
             // move a bola ate o objeto bolaPosition
