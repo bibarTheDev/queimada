@@ -7,7 +7,7 @@ public class bolaBehaviour : MonoBehaviour
     private Rigidbody rigidBody;
 
     private bool isHeld = false;
-    private string throwerTeam = "";
+    private Equipes throwerTeam = Equipes.None;
 
     // Start is called before the first frame update
     void Start()
@@ -19,15 +19,15 @@ public class bolaBehaviour : MonoBehaviour
         // se colidou com a quadra
         if(coll.gameObject.tag == "Quadra"){
             // reseta arremesso
-            throwerTeam = "";
+            throwerTeam = Equipes.None;
         }
     }
 
 
     public bool isBeignHeld() { return isHeld; }
-    public bool isLethal(string playerTeam) { return throwerTeam != "" && throwerTeam != playerTeam; }
+    public bool isLethal(Equipes targetTeam) { return throwerTeam != Equipes.None && throwerTeam != targetTeam; }
 
-    public GameObject bePickedUp(string playerTeam)
+    public GameObject bePickedUp(Equipes playerTeam)
     {    
         if(isHeld){
             return null;

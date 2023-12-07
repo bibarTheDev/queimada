@@ -20,7 +20,7 @@ public class BolaHeld {
 public class playerBehaviour : MonoBehaviour
 {
     [Header("Player Team")]
-    public string characterTeam = "A";
+    public Equipes characterTeam;
 
     [Header("Player Stats")]
     public float moveSpeed = 1.0f;
