@@ -2341,7 +2341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb3f3639374e9bb43ab25d9df933c63c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pontuacaoMax: 3
 --- !u!4 &1313465265
 Transform:
   m_ObjectHideFlags: 0

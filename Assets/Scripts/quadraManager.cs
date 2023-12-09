@@ -13,11 +13,11 @@ public class quadraManager : MonoBehaviour
 {
     [Header("Game Settings")]
     public static int pontuacaoMax = 3;
-    private int scoreA, scoreB; // eu poderia fazer isso com um Dict, mas NAO VOU (eles sao mt feios no c# seloco)
+    private Dictionary<Equipes, int> scores; 
 
     // static reference    
     public static quadraManager instance;
-    private QuadraStates state = QuadraStates.Countdown;
+    private QuadraStates state = QuadraStates.Game;
 
     
     // delegates
@@ -35,33 +35,23 @@ public class quadraManager : MonoBehaviour
     {
         instance = this;
 
-        scoreA = 0;
-        scoreB = 0;
+        scores = new Dictionary<Equipes, int>();
+        scores.Add(Equipes.A, 0);
+        scores.Add(Equipes.B, 0);
     }
 
     void onQueimaFunction(Equipes queimado)
     {
-        Debug.Log(queimado + " foi queimado!");
-
-        switch(queimado){
-        case Equipes.A:
-            scoreB += 1;
-            onPonto?.Invoke(Equipes.B);
-            if(scoreA >= pontuacaoMax){
-                onVitoria?.Invoke(Equipes.B);
-            }
-            break;
-
-        case Equipes.B:
-            scoreA += 1;
-            onPonto?.Invoke(Equipes.A);
-            if(scoreA >= pontuacaoMax){
-                onVitoria?.Invoke(Equipes.A);
-            }
-            break;
-
-        default:
+        if(state != QuadraStates.Game){
             return;
+        }
+
+        Equipes ponto = (queimado == Equipes.A) ? Equipes.B : Equipes.A;
+
+        scores[ponto] += 1;
+        onPonto?.Invoke(ponto);
+        if(scores[ponto] >= pontuacaoMax){
+            onVitoria?.Invoke(ponto);
         }
     }
 }

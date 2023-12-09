@@ -48,7 +48,7 @@ public class UIManager : MonoBehaviour
     private int canvasY;
 
     private int totalPontos;
-    private ScoreManager scoreA, scoreB;
+    private Dictionary<Equipes, ScoreManager> scores;
 
     // listeners
     void Awake() { quadraManager.onPonto += onPontoFunction; }
@@ -66,14 +66,22 @@ public class UIManager : MonoBehaviour
         totalPontos = quadraManager.pontuacaoMax;
 
         // calcula onde objetos devem ser colocados, e dps os cria
+        scores = new Dictionary<Equipes, ScoreManager>();
+        Vector2 begin;
         int halfSprSize = spriteSize / 2;
 
         // begin eh a posicao do primeiro contador, scoredirection eh a direcao dos contadores seguintes
-        Vector2 beginA =  new Vector2(((canvasX / 2) - (margin + halfSprSize)) * -1, (canvasY / 2) - (margin + halfSprSize));
-        scoreA = new ScoreManager(totalPontos, createNewScoreCounters(beginA, ScoreDirections.Rigth));
+        begin =  new Vector2(
+            ((canvasX / 2) - (margin + halfSprSize)) * -1, 
+            (canvasY / 2) - (margin + halfSprSize)
+        );
+        scores.Add(Equipes.A, new ScoreManager(totalPontos, createNewScoreCounters(begin, ScoreDirections.Rigth)));
 
-        Vector2 beginB =  new Vector2(((canvasX / 2) - (margin + halfSprSize)), (canvasY / 2) - (margin + halfSprSize));
-        scoreB = new ScoreManager(totalPontos, createNewScoreCounters(beginB, ScoreDirections.Left));
+        begin =  new Vector2(
+            ((canvasX / 2) - (margin + halfSprSize)), 
+            (canvasY / 2) - (margin + halfSprSize)
+        );
+        scores.Add(Equipes.B, new ScoreManager(totalPontos, createNewScoreCounters(begin, ScoreDirections.Left)));
 
     }
 
@@ -124,25 +132,7 @@ public class UIManager : MonoBehaviour
 
     public void onPontoFunction(Equipes team)
     {
-        Debug.Log("gol do " + team);
-
-        GameObject contador;
-
-        switch(team){
-        case Equipes.A:
-            contador = scoreA.marcarPonto();
-            break;
-
-        case Equipes.B:
-            contador = scoreB.marcarPonto();
-            break;
-
-        default:
-            return;
-        }
-
-        Debug.Log(contador);
-        Debug.Log(scoreA.pontos);
+        GameObject contador = scores[team].marcarPonto();
 
         if(contador != null){
             contador.GetComponent<Image>().sprite = sprCheio;
