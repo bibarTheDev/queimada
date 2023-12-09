@@ -4,21 +4,24 @@ using UnityEngine;
 
 
 // agrupa componentes da bola
-public class BolaHeld {
-    public GameObject obj = null;
+public class BolaHeld
+{
     public bolaBehaviour controller = null;
     public Transform transform = null;
 
-    public BolaHeld(GameObject ob, bolaBehaviour ct, Transform tr)
+    public BolaHeld(bolaBehaviour ct, Transform tr)
     {
-        this.obj = ob;
         this.controller = ct;
         this.transform = tr;
     }
 }
 
-public class playerBehaviour : MonoBehaviour
+public class characterBehaviour : MonoBehaviour
 {
+    // delegates
+    public delegate void OnQueima(Equipes alvo);
+    public static event OnQueima onQueima;
+
     [Header("Player Team")]
     public Equipes characterTeam;
 
@@ -54,7 +57,7 @@ public class playerBehaviour : MonoBehaviour
 
         // se foi atingido por uma bola e se ela era lethal (em relacao a equipe desse personagem)
         if(obj.tag == "Bola" && obj.GetComponent<bolaBehaviour>().isLethal(characterTeam)){
-            Debug.Log("Ai");
+            onQueima?.Invoke(characterTeam);
         }
     }
 
@@ -85,7 +88,6 @@ public class playerBehaviour : MonoBehaviour
 
             // segura a bola (se estiver disponivel)
             bolaHeld = new BolaHeld(
-                bola,
                 bola.GetComponent<bolaBehaviour>(),
                 bola.GetComponent<Transform>()
             );

@@ -25,11 +25,11 @@ public class ScoreManager
     public GameObject marcarPonto()
     {
         // deve atualziar o placar e retornar o objeto correspondente
-        if(++pontos >= maxPontos){
+        if(++pontos > maxPontos){
             return null;
         }
 
-        return contadores[pontos];
+        return contadores[pontos - 1];
     }
 }
 
@@ -49,7 +49,11 @@ public class UIManager : MonoBehaviour
 
     private int totalPontos;
     private ScoreManager scoreA, scoreB;
-    
+
+    // listeners
+    void Awake() { quadraManager.onPonto += onPontoFunction; }
+    void Destroy() { quadraManager.onPonto -= onPontoFunction; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,7 +63,7 @@ public class UIManager : MonoBehaviour
         canvasY = (int) canvasTransf.rect.height;
 
         // totalPontos = quadraManager.instance.pontuacaoMax;
-        totalPontos = 3;
+        totalPontos = quadraManager.pontuacaoMax;
 
         // calcula onde objetos devem ser colocados, e dps os cria
         int halfSprSize = spriteSize / 2;
@@ -73,6 +77,7 @@ public class UIManager : MonoBehaviour
 
     }
 
+    // CRIMINOSO isso aqui ta
     private List<GameObject> createNewScoreCounters(Vector2 beginPos, ScoreDirections dir)
     {
         List<GameObject> contadores = new List<GameObject>();
@@ -117,8 +122,10 @@ public class UIManager : MonoBehaviour
         return contadores;
     }
 
-    public void ScorePonto(Equipes team)
+    public void onPontoFunction(Equipes team)
     {
+        Debug.Log("gol do " + team);
+
         GameObject contador;
 
         switch(team){
@@ -133,6 +140,9 @@ public class UIManager : MonoBehaviour
         default:
             return;
         }
+
+        Debug.Log(contador);
+        Debug.Log(scoreA.pontos);
 
         if(contador != null){
             contador.GetComponent<Image>().sprite = sprCheio;

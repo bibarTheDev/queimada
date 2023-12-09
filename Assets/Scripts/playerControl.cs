@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerControl : playerBehaviour
+public class playerControl : characterBehaviour
 {
     [Header("Player Cursor Reference")]
     // objeto que representa a direcao do cursor (NAO o plano)
