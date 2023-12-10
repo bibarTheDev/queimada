@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum ScoreDirections
 {
-    Rigth,
+    Right,
     Left
 }
 
@@ -75,7 +75,7 @@ public class UIManager : MonoBehaviour
             ((canvasX / 2) - (margin + halfSprSize)) * -1, 
             (canvasY / 2) - (margin + halfSprSize)
         );
-        scores.Add(Equipes.A, new ScoreManager(totalPontos, createNewScoreCounters(begin, ScoreDirections.Rigth)));
+        scores.Add(Equipes.A, new ScoreManager(totalPontos, createNewScoreCounters(begin, ScoreDirections.Right)));
 
         begin =  new Vector2(
             ((canvasX / 2) - (margin + halfSprSize)), 
@@ -106,7 +106,7 @@ public class UIManager : MonoBehaviour
             // posiciona o objeto
             Vector2 displace;
             switch(dir){
-            case ScoreDirections.Rigth:
+            case ScoreDirections.Right:
                 displace = new Vector2(margin + spriteSize, 0);
                 break;
 
