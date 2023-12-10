@@ -4,33 +4,48 @@ using UnityEngine;
 
 public class cursorPosition : MonoBehaviour
 {
-    [Header("Mouse references")]
+    [Header("Mouse references (MKB)")]
     public Camera mainCamera = null;
     public LayerMask groundRefLayer = 0;
 
-    [Header("Player reference")]
+    [Header("Player reference (Pad)")]
     public GameObject playerObject = null;
+    public float radius = 3.5f;
 
-    private bool isMouse = true;
+    private Transform characterTransform = null;
+    private Vector3 previousDirection = Vector3.zero;
 
+    private ControllerType control = ControllerType.MKB;
 
     // Start is called before the first frame update
     void Start()
     {
         if(mainCamera == null) {
-            Debug.LogWarning("Objeto camera nao foi configurado, impossivel executar no modo Mouse");
+            Debug.LogWarning(gameObject.name + ": Objeto camera nao foi configurado, impossivel executar no modo Mouse");
         }
 
         if(playerObject == null) {
-            Debug.LogWarning("Objeto player nao foi configurado, impossivel executar no modo Controle");
+            Debug.LogWarning(gameObject.name + ": Objeto player nao foi configurado, impossivel executar no modo Controle");
+        }
+        else{
+            characterTransform = playerObject.GetComponent<Transform>();
         }
     }
 
+    public void setControllerType(ControllerType ct) { control = ct; }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = (isMouse) ? positionAsMouse() : positionAsController();
+        switch(control)
+        {
+        case ControllerType.MKB:
+            transform.position = positionAsMouse();
+            break;
+        case ControllerType.Pad:
+            transform.position = positionAsController();
+            break;
+        }
     }
 
     Vector3 positionAsMouse()
@@ -47,7 +62,19 @@ public class cursorPosition : MonoBehaviour
 
     Vector3 positionAsController()
     {
-        // :)
-        return transform.position;
+        // pega a direco do analogico
+        Vector3 direction = new Vector3(Input.GetAxis("HorizontalAimPad"), 0, Input.GetAxis("VerticalAimPad"));
+        direction.z *= -1; // ?????
+        
+        // Debug.Log("RStrick: " + direction);
+        if(direction == Vector3.zero){
+            direction = previousDirection;
+        }
+        else{
+            previousDirection = direction;
+        }
+
+        // calcula a posicao em relacao ao player
+        return characterTransform.position + (direction.normalized * radius);
     }
 }
