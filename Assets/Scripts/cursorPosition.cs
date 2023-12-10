@@ -89,6 +89,8 @@ public class cursorPosition : MonoBehaviour
         }
 
         // calcula a posicao em relacao ao player
-        return characterTransform.position + (direction * radius);
+        Vector3 result = characterTransform.position + (direction * radius);
+        result.y = 0;
+        return result;
     }
 }
