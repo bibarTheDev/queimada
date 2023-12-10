@@ -11,8 +11,6 @@ public class playerControl : characterBehaviour
     [Header("Input Settings")]
     public ControllerType controlType = 0;
 
-    private string inputSuffix = "";
-
     // Start is called before the first frame update
     void Start()
     {

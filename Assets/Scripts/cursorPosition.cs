@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class cursorPosition : MonoBehaviour
 {
-    [Header("Mouse references (MKB)")]
+    [Header("General References")]
     public Camera mainCamera = null;
+
+    [Header("KBM References")]
     public LayerMask groundRefLayer = 0;
 
-    [Header("Player reference (Pad)")]
+    [Header("Pad References")]
     public GameObject playerObject = null;
     public float radius = 3.5f;
 
     private Transform characterTransform = null;
     private Vector3 previousDirection = Vector3.zero;
+    private float cameraRotation;
 
     private ControllerType control = ControllerType.MKB;
 
@@ -21,7 +24,15 @@ public class cursorPosition : MonoBehaviour
     void Start()
     {
         if(mainCamera == null) {
-            Debug.LogWarning(gameObject.name + ": Objeto camera nao foi configurado, impossivel executar no modo Mouse");
+            Debug.LogWarning(gameObject.name + ": Objeto camera nao foi configurado, impossivel executar");
+        }
+        else{
+            // calcula a rotacao da camera em relacao a cena
+            Vector3 cameraDirection = mainCamera.GetComponent<Transform>().forward;
+            cameraDirection.y = 0;
+            cameraDirection.Normalize();
+
+            cameraRotation = Vector3.Angle(cameraDirection, new Vector3(0, 0, 1));
         }
 
         if(playerObject == null) {
@@ -65,8 +76,11 @@ public class cursorPosition : MonoBehaviour
         // pega a direco do analogico
         Vector3 direction = new Vector3(Input.GetAxis("HorizontalAimPad"), 0, Input.GetAxis("VerticalAimPad"));
         direction.z *= -1; // ?????
+
+        direction = Quaternion.Euler(new Vector3(0, -cameraRotation, 0)) * direction.normalized;
+
+        Debug.Log("L3: " + direction);
         
-        // Debug.Log("RStrick: " + direction);
         if(direction == Vector3.zero){
             direction = previousDirection;
         }
@@ -75,6 +89,6 @@ public class cursorPosition : MonoBehaviour
         }
 
         // calcula a posicao em relacao ao player
-        return characterTransform.position + (direction.normalized * radius);
+        return characterTransform.position + (direction * radius);
     }
 }
