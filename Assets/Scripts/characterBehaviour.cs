@@ -71,6 +71,7 @@ public class characterBehaviour : MonoBehaviour
 
         // se foi atingido por uma bola e se ela era lethal (em relacao a equipe desse personagem)
         if(obj.tag == "Bola" && obj.GetComponent<bolaBehaviour>().isLethal(characterTeam)){
+            obj.GetComponent<bolaBehaviour>().resetLethality();
             onQueima?.Invoke(characterTeam);
         }
     }

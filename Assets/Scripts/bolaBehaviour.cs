@@ -26,6 +26,7 @@ public class bolaBehaviour : MonoBehaviour
 
     public bool isBeignHeld() { return isHeld; }
     public bool isLethal(Equipes targetTeam) { return throwerTeam != Equipes.None && throwerTeam != targetTeam; }
+    public void resetLethality() { throwerTeam = Equipes.None; }
 
     public GameObject bePickedUp(Equipes playerTeam)
     {    
