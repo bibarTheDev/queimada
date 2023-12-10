@@ -33,7 +33,13 @@ public class characterBehaviour : MonoBehaviour
     protected BolaHeld bolaHeld = null;
 
     protected Transform heldBolaPostion = null;
+
     protected CharacterController controller = null;
+
+    
+    [Header("Movement Reference (na duvida, use a MainCamera)")]
+    public GameObject movementReferenceObj;
+    protected Vector3 moveRefForward, moveRefRight;
 
     // Start is called before the first frame update
     protected void Start()
@@ -42,6 +48,14 @@ public class characterBehaviour : MonoBehaviour
         heldBolaPostion = gameObject.transform.GetChild(1);
 
         controller = gameObject.GetComponent<CharacterController>();
+
+        // configura os vetores de referencia
+        moveRefForward = movementReferenceObj.GetComponent<Transform>().forward;
+        // moveRefForward = Camera.main.transform.forward;
+        moveRefForward.y = 0;
+        moveRefForward.Normalize();
+        Debug.Log(moveRefForward);
+        moveRefRight = Quaternion.Euler(new Vector3(0, 90, 0)) * moveRefForward;
     }
 
     // Update is called once per frame
@@ -63,11 +77,29 @@ public class characterBehaviour : MonoBehaviour
 
     protected void move(Vector3 direction)
     {
+        Vector3 moveRight, moveForward, faceDirectino;
+
+        //normaliza o input
         if(direction.magnitude > 1){
             direction.Normalize();
         }
+
+        // calcula o input de acordo com o objeto referenciado
+        moveForward = moveRefForward * direction.z;
+        moveRight = moveRefRight * direction.x;
+
+        direction = moveForward + moveRight;
+
+        faceDirectino = direction.normalized;
+
+        if(faceDirectino != Vector3.zero){
+        // roda o objeto pra ele apontar pra direcao que estava andando
+            transform.forward = faceDirectino;
+        }
+
+        // move
         controller.Move(direction * moveSpeed * Time.deltaTime);
-        // transform.Translate(direction * moveSpeed * Time.deltaTime);
+        // transform.position += direction * moveSpeed * Time.deltaTime;
 
         if(bolaHeld != null){
             // move a bola ate o objeto bolaPosition

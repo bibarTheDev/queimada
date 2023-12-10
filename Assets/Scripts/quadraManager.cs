@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum QuadraStates
 {
+    Menu,
     Countdown,
     Game,
     EndOfGame
