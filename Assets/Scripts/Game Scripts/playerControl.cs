@@ -14,12 +14,12 @@ public class playerControl : characterBehaviour
     private bool inputsEnabled = false;
 
     // event listening
-    void Awake()
+    void subToEvents()
     {
         quadraManager.onGameStart += onGameStartFunction; 
         quadraManager.onGameEnd += onGameEndFunction; 
     }
-    void Destroy()
+    void unsubToEvents()
     {
         quadraManager.onGameStart -= onGameStartFunction;
         quadraManager.onGameEnd -= onGameEndFunction;
@@ -36,7 +36,11 @@ public class playerControl : characterBehaviour
         else{
             cursorPos.GetComponent<cursorPosition>().setControllerType(controlType);
         }
+
+        subToEvents();        
     }
+    
+    void Destroy() { unsubToEvents(); }
 
     // Update is called once per frame
     new void Update()

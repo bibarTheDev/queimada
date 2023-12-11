@@ -32,14 +32,14 @@ public class quadraManager : MonoBehaviour
     public static event OnGameEnd onGameEnd;
 
     // listeners
-    void Awake()
+    void subToEvents()
     {
         characterBehaviour.onQueima += onQueimaFunction;
         UITitleBehaviour.onJogarClick += onJogarClickFunction;
         UITitleBehaviour.onSairClick += onSairClickFunction;
         UIWinBehaviour.onContinueWinClick += onContinueWinClickFunction;
     }
-    void Destroy()
+    void unsubToEvents()
     {
         characterBehaviour.onQueima -= onQueimaFunction;
         UITitleBehaviour.onJogarClick -= onJogarClickFunction;
@@ -51,8 +51,12 @@ public class quadraManager : MonoBehaviour
     void Start()
     {
         instance = this;
-        setupQuadra();
+        // esse metodo precisa de um delay para dar tempo de tudo carrregar
+        Invoke(nameof(setupQuadra), 0.2f);
+        subToEvents();
     }
+
+    void Destroy() { unsubToEvents(); }
 
     void setupQuadra()
     {
@@ -63,11 +67,6 @@ public class quadraManager : MonoBehaviour
         scores.Add(Equipes.B, 0);
         
         onEnterMenu?.Invoke();
-    }
-
-    void Update()
-    {
-        Debug.Log(state);
     }
 
     void onQueimaFunction(Equipes queimado)

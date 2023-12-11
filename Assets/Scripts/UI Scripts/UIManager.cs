@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     private UITitleBehaviour titleUIBehaviour;
 
     // listeners
-    void Awake()
+    void subToEvents()
     { 
         quadraManager.onEnterMenu += onEnterMenuFunction;
         quadraManager.onGameStart += onGameStartFunction;
@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
         UITitleBehaviour.onInstrucoesClick += onInstrucoesClickFunction;
         UIInstrucoesBehaviour.onVoltarInstrClick += onVoltarInstrClickFunction;
     }
-    void Destroy()
+    void unsubToEvents()
     { 
         quadraManager.onEnterMenu -= onEnterMenuFunction;
         quadraManager.onGameStart -= onGameStartFunction;
@@ -52,8 +52,11 @@ public class UIManager : MonoBehaviour
         overlayUIBehaviour = overlayUIObject.GetComponent<UIOverlayBehaviour>();
         mainMenuUIBehaviour = mainMenuUIObject.GetComponent<UIMainMenuBehaviour>();
         titleUIBehaviour = titleUIObject.GetComponent<UITitleBehaviour>();
+
+        subToEvents();
     }
 
+    void Destroy() { unsubToEvents(); }
 
     public void onEnterMenuFunction()
     {

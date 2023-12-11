@@ -23,12 +23,13 @@ public class cursorPosition : MonoBehaviour
     private bool enabledInputs = false;
 
     // event listening
-    void Awake()
+
+    void subToEvents()
     {
         quadraManager.onGameStart += onGameStartFunction; 
         quadraManager.onGameEnd += onGameEndFunction; 
     }
-    void Destroy()
+    void unsubToEvents()
     {
         quadraManager.onGameStart -= onGameStartFunction;
         quadraManager.onGameEnd -= onGameEndFunction;
@@ -55,7 +56,11 @@ public class cursorPosition : MonoBehaviour
         else{
             characterTransform = playerObject.GetComponent<Transform>();
         }
+        
+        subToEvents();
     }
+
+    void Destroy() { unsubToEvents(); }
 
     public void setControllerType(ControllerType ct) { control = ct; }
 
