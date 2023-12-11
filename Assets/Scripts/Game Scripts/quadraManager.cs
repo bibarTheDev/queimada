@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public enum QuadraStates
 {
     Menu,
-    Countdown,
     Game,
     EndOfGame
 }
@@ -19,10 +18,12 @@ public class quadraManager : MonoBehaviour
 
     // static reference    
     public static quadraManager instance;
-    private QuadraStates state = QuadraStates.Game;
+    private QuadraStates state = QuadraStates.Menu;
 
     
     // delegates
+    public delegate void OnEnterMenu();
+    public static event OnEnterMenu onEnterMenu;
     public delegate void OnGameStart();
     public static event OnGameStart onGameStart;
     public delegate void OnPonto(Equipes ponto);
@@ -31,8 +32,16 @@ public class quadraManager : MonoBehaviour
     public static event OnGameEnd onGameEnd;
 
     // listeners
-    void Awake() { characterBehaviour.onQueima += onQueimaFunction; }
-    void Destroy() { characterBehaviour.onQueima -= onQueimaFunction; }
+    void Awake()
+    {
+        characterBehaviour.onQueima += onQueimaFunction;
+        UITitleBehaviour.onJogarClick += onJogarClickFunction;
+    }
+    void Destroy()
+    {
+        characterBehaviour.onQueima -= onQueimaFunction;
+        UITitleBehaviour.onJogarClick -= onJogarClickFunction;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +52,8 @@ public class quadraManager : MonoBehaviour
         scores.Add(Equipes.A, 0);
         scores.Add(Equipes.B, 0);
         
-        onGameStart?.Invoke();
+        Debug.Log("SHOULD LOAD MENUS");
+        onEnterMenu?.Invoke();
     }
 
     void onQueimaFunction(Equipes queimado)
@@ -62,5 +72,15 @@ public class quadraManager : MonoBehaviour
         if(scores[ponto] >= pontuacaoMax){
             onGameEnd?.Invoke(ponto);
         }
+    }
+
+    void onJogarClickFunction()
+    {
+        if(state != QuadraStates.Menu){
+            return;
+        }
+
+        state = QuadraStates.Game;
+        onGameStart?.Invoke();
     }
 }

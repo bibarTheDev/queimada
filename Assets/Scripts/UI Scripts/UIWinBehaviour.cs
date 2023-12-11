@@ -6,6 +6,10 @@ public class UIWinBehaviour : UIGenericBehaviour
 {
     private GameObject P1Text, P2Text;
 
+    // delegates
+    public delegate void OnContinueWinClick();
+    public static event OnContinueWinClick onContinueWinClick;
+
     // Start is called before the first frame update
     new void Start() 
     { 
@@ -34,5 +38,11 @@ public class UIWinBehaviour : UIGenericBehaviour
             P1Text.SetActive(false);
             break;   
         }
+    }
+
+    public void continueClick()
+    {
+        Debug.Log("Contiue");
+        onContinueWinClick?.Invoke();
     }
 }
