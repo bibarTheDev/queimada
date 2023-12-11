@@ -28,6 +28,5 @@ public class UITitleBehaviour : UIGenericBehaviour
     {
         Debug.Log("Eh o quitas");
         onSairClick?.Invoke();
-        Application.Quit();
     }
 }

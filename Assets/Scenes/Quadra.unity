@@ -728,9 +728,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 530965427}
-        m_TargetAssemblyTypeName: UITitleBehaviour, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 530965430}
+        m_TargetAssemblyTypeName: UIWinBehaviour, Assembly-CSharp
+        m_MethodName: continueClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4707,7 +4707,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1712479139}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7aaf1430c2e7d954785ef16e7b19cad9, type: 3}
   m_Name: 

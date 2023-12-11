@@ -36,24 +36,38 @@ public class quadraManager : MonoBehaviour
     {
         characterBehaviour.onQueima += onQueimaFunction;
         UITitleBehaviour.onJogarClick += onJogarClickFunction;
+        UITitleBehaviour.onSairClick += onSairClickFunction;
+        UIWinBehaviour.onContinueWinClick += onContinueWinClickFunction;
     }
     void Destroy()
     {
         characterBehaviour.onQueima -= onQueimaFunction;
         UITitleBehaviour.onJogarClick -= onJogarClickFunction;
+        UITitleBehaviour.onSairClick -= onSairClickFunction;
+        UIWinBehaviour.onContinueWinClick -= onContinueWinClickFunction;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         instance = this;
+        setupQuadra();
+    }
+
+    void setupQuadra()
+    {
+        state = QuadraStates.Menu;
 
         scores = new Dictionary<Equipes, int>();
         scores.Add(Equipes.A, 0);
         scores.Add(Equipes.B, 0);
         
-        Debug.Log("SHOULD LOAD MENUS");
         onEnterMenu?.Invoke();
+    }
+
+    void Update()
+    {
+        Debug.Log(state);
     }
 
     void onQueimaFunction(Equipes queimado)
@@ -67,9 +81,10 @@ public class quadraManager : MonoBehaviour
         scores[ponto] += 1;
         onPonto?.Invoke(ponto);
 
-        Debug.Log(scores[ponto] + ", " + pontuacaoMax);
+        Debug.Log(scores[ponto] + "/" + pontuacaoMax);
 
         if(scores[ponto] >= pontuacaoMax){
+            state = QuadraStates.EndOfGame;
             onGameEnd?.Invoke(ponto);
         }
     }
@@ -82,5 +97,16 @@ public class quadraManager : MonoBehaviour
 
         state = QuadraStates.Game;
         onGameStart?.Invoke();
+    }
+
+    void onSairClickFunction() { Debug.Log("falo papitor");Application.Quit(); }
+
+    void onContinueWinClickFunction()
+    {
+        if(state != QuadraStates.EndOfGame){
+            return;
+        }
+
+        setupQuadra();
     }
 }
