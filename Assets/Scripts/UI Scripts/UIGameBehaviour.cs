@@ -33,11 +33,8 @@ public class ScoreManager
     }
 }
 
-public class UIGameBehaviour : MonoBehaviour
-{
-    [Header("Default Behaviour")]
-    public bool defaultHidden = true;
-    
+public class UIGameBehaviour : UIGenericBehaviour
+{    
     [Header("Canvas Reference")]
     public GameObject canvasRef;
 
@@ -52,20 +49,15 @@ public class UIGameBehaviour : MonoBehaviour
     private int maxPontos;
     private Dictionary<Equipes, ScoreManager> scores;
 
-    private CanvasGroup canvasGroup;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
-        canvasGroup = gameObject.GetComponent<CanvasGroup>();
+        base.Start();
 
         maxPontos = quadraManager.pontuacaoMax;
 
         loadContadores();
-        
-        if(defaultHidden){
-            hide();
-        }
     }
 
     public void loadContadores()
@@ -152,17 +144,5 @@ public class UIGameBehaviour : MonoBehaviour
         if(contador != null){
             contador.GetComponent<Image>().sprite = sprCheio;
         }
-    }
-    
-    public void hide()
-    {
-        canvasGroup.alpha = 0;
-        canvasGroup.interactable = false;
-    }
-
-    public void show()
-    {
-        canvasGroup.alpha = 1;
-        canvasGroup.interactable = true;
     }
 }
