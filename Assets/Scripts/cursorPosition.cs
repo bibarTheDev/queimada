@@ -20,6 +20,20 @@ public class cursorPosition : MonoBehaviour
 
     private ControllerType control = ControllerType.MKB;
 
+    private bool enabled = false;
+
+    // event listening
+    void Awake()
+    {
+        quadraManager.onGameStart += onGameStartFunction; 
+        quadraManager.onGameEnd += onGameEndFunction; 
+    }
+    void Destroy()
+    {
+        quadraManager.onGameStart -= onGameStartFunction;
+        quadraManager.onGameEnd -= onGameEndFunction;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +62,10 @@ public class cursorPosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!enabled){
+            return;
+        }
+
         switch(control)
         {
         case ControllerType.MKB:
@@ -78,8 +96,6 @@ public class cursorPosition : MonoBehaviour
         direction.z *= -1; // ?????
 
         direction = Quaternion.Euler(new Vector3(0, -cameraRotation, 0)) * direction.normalized;
-
-        Debug.Log("L3: " + direction);
         
         if(direction == Vector3.zero){
             direction = previousDirection;
@@ -93,4 +109,8 @@ public class cursorPosition : MonoBehaviour
         result.y = 0;
         return result;
     }
+
+    void onGameStartFunction() { enabled = true; }
+    void onGameEndFunction(Equipes team) { enabled = false; }
+    
 }

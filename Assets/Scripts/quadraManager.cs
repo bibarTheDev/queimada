@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum QuadraStates
 {
@@ -22,10 +23,12 @@ public class quadraManager : MonoBehaviour
 
     
     // delegates
+    public delegate void OnGameStart();
+    public static event OnGameStart onGameStart;
     public delegate void OnPonto(Equipes ponto);
     public static event OnPonto onPonto;
-    public delegate void OnVitoria(Equipes vencedor);
-    public static event OnVitoria onVitoria;
+    public delegate void OnGameEnd(Equipes vencedor);
+    public static event OnGameEnd onGameEnd;
 
     // listeners
     void Awake() { characterBehaviour.onQueima += onQueimaFunction; }
@@ -39,6 +42,8 @@ public class quadraManager : MonoBehaviour
         scores = new Dictionary<Equipes, int>();
         scores.Add(Equipes.A, 0);
         scores.Add(Equipes.B, 0);
+        
+        onGameStart?.Invoke();
     }
 
     void onQueimaFunction(Equipes queimado)
@@ -51,9 +56,11 @@ public class quadraManager : MonoBehaviour
 
         scores[ponto] += 1;
         onPonto?.Invoke(ponto);
+
+        Debug.Log(scores[ponto] + ", " + pontuacaoMax);
+
         if(scores[ponto] >= pontuacaoMax){
-            onVitoria?.Invoke(ponto);
+            onGameEnd?.Invoke(ponto);
         }
     }
 }
-

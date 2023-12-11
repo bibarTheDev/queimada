@@ -11,6 +11,20 @@ public class playerControl : characterBehaviour
     [Header("Input Settings")]
     public ControllerType controlType = 0;
 
+    private bool enabled = false;
+
+    // event listening
+    void Awake()
+    {
+        quadraManager.onGameStart += onGameStartFunction; 
+        quadraManager.onGameEnd += onGameEndFunction; 
+    }
+    void Destroy()
+    {
+        quadraManager.onGameStart -= onGameStartFunction;
+        quadraManager.onGameEnd -= onGameEndFunction;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +41,10 @@ public class playerControl : characterBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!enabled){
+            return;
+        }
+
         // definitivamente nao eh a solucao mais elegante mas eh o que o prazo permite
         switch(controlType)
         {
@@ -39,6 +57,9 @@ public class playerControl : characterBehaviour
             break;
         }
     }
+
+    void onGameStartFunction() { enabled = true; }
+    void onGameEndFunction(Equipes team) { enabled = false; }
 
     void doPadInputs()
     {

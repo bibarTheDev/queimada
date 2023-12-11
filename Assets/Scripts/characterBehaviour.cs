@@ -46,6 +46,7 @@ public class characterBehaviour : MonoBehaviour
     {
         // posicao do objeto bolaPosition
         heldBolaPostion = gameObject.transform.GetChild(1);
+        // Debug.Log("bolaPosition check on " + gameObject.name + ": " + heldBolaPostion.name);
 
         controller = gameObject.GetComponent<CharacterController>();
 
@@ -54,7 +55,7 @@ public class characterBehaviour : MonoBehaviour
         // moveRefForward = Camera.main.transform.forward;
         moveRefForward.y = 0;
         moveRefForward.Normalize();
-        Debug.Log(moveRefForward);
+        
         moveRefRight = Quaternion.Euler(new Vector3(0, 90, 0)) * moveRefForward;
     }
 

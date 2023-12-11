@@ -50,13 +50,28 @@ public class UIManager : MonoBehaviour
     private int totalPontos;
     private Dictionary<Equipes, ScoreManager> scores;
 
+    [Header("Childs References")]
+    public GameObject WinUIObject;
+
     // listeners
-    void Awake() { quadraManager.onPonto += onPontoFunction; }
-    void Destroy() { quadraManager.onPonto -= onPontoFunction; }
+    void Awake()
+    { 
+        quadraManager.onGameStart += onGameStartFunction;
+        quadraManager.onPonto += onPontoFunction;
+        quadraManager.onGameEnd += onGameEndFunction;
+    }
+    void Destroy()
+    { 
+        quadraManager.onGameStart -= onGameStartFunction;
+        quadraManager.onPonto -= onPontoFunction;
+        quadraManager.onGameEnd -= onGameEndFunction;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("WinUIObject check on " + gameObject.name + ": " + WinUIObject.name);
+
         // salva o tamanho do canvas
         RectTransform canvasTransf = gameObject.GetComponent<RectTransform>();
         canvasX = (int) canvasTransf.rect.width;
@@ -65,6 +80,11 @@ public class UIManager : MonoBehaviour
         // totalPontos = quadraManager.instance.pontuacaoMax;
         totalPontos = quadraManager.pontuacaoMax;
 
+        loadContadores();
+    }
+
+    public void loadContadores()
+    {
         // calcula onde objetos devem ser colocados, e dps os cria
         scores = new Dictionary<Equipes, ScoreManager>();
         Vector2 begin;
@@ -75,18 +95,17 @@ public class UIManager : MonoBehaviour
             ((canvasX / 2) - (margin + halfSprSize)) * -1, 
             (canvasY / 2) - (margin + halfSprSize)
         );
-        scores.Add(Equipes.A, new ScoreManager(totalPontos, createNewScoreCounters(begin, ScoreDirections.Right)));
+        scores.Add(Equipes.A, new ScoreManager(totalPontos, createNewContadores(begin, ScoreDirections.Right)));
 
         begin =  new Vector2(
             ((canvasX / 2) - (margin + halfSprSize)), 
             (canvasY / 2) - (margin + halfSprSize)
         );
-        scores.Add(Equipes.B, new ScoreManager(totalPontos, createNewScoreCounters(begin, ScoreDirections.Left)));
-
+        scores.Add(Equipes.B, new ScoreManager(totalPontos, createNewContadores(begin, ScoreDirections.Left)));
     }
 
     // CRIMINOSO isso aqui ta
-    private List<GameObject> createNewScoreCounters(Vector2 beginPos, ScoreDirections dir)
+    private List<GameObject> createNewContadores(Vector2 beginPos, ScoreDirections dir)
     {
         List<GameObject> contadores = new List<GameObject>();
 
@@ -130,6 +149,11 @@ public class UIManager : MonoBehaviour
         return contadores;
     }
 
+    public void onGameStartFunction()
+    {
+        WinUIObject.GetComponent<UIWinBehaviour>().hide();
+    }
+
     public void onPontoFunction(Equipes team)
     {
         GameObject contador = scores[team].marcarPonto();
@@ -137,5 +161,10 @@ public class UIManager : MonoBehaviour
         if(contador != null){
             contador.GetComponent<Image>().sprite = sprCheio;
         }
+    }
+
+    public void onGameEndFunction(Equipes team)
+    {
+        WinUIObject.GetComponent<UIWinBehaviour>().show(team);
     }
 }
