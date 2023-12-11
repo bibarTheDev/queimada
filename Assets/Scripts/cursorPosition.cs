@@ -20,7 +20,7 @@ public class cursorPosition : MonoBehaviour
 
     private ControllerType control = ControllerType.MKB;
 
-    private bool enabled = false;
+    private bool enabledInputs = false;
 
     // event listening
     void Awake()
@@ -62,7 +62,7 @@ public class cursorPosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!enabled){
+        if(!enabledInputs){
             return;
         }
 
@@ -110,7 +110,7 @@ public class cursorPosition : MonoBehaviour
         return result;
     }
 
-    void onGameStartFunction() { enabled = true; }
-    void onGameEndFunction(Equipes team) { enabled = false; }
+    void onGameStartFunction() { enabledInputs = true; }
+    void onGameEndFunction(Equipes team) { enabledInputs = false; }
     
 }

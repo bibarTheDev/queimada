@@ -11,7 +11,7 @@ public class playerControl : characterBehaviour
     [Header("Input Settings")]
     public ControllerType controlType = 0;
 
-    private bool enabled = false;
+    private bool inputsEnabled = false;
 
     // event listening
     void Awake()
@@ -26,7 +26,7 @@ public class playerControl : characterBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         base.Start();
 
@@ -39,9 +39,9 @@ public class playerControl : characterBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
-        if(!enabled){
+        if(!inputsEnabled){
             return;
         }
 
@@ -58,8 +58,8 @@ public class playerControl : characterBehaviour
         }
     }
 
-    void onGameStartFunction() { enabled = true; }
-    void onGameEndFunction(Equipes team) { enabled = false; }
+    void onGameStartFunction() { inputsEnabled = true; }
+    void onGameEndFunction(Equipes team) { inputsEnabled = false; }
 
     void doPadInputs()
     {
