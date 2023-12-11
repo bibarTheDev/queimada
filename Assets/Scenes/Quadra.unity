@@ -1048,7 +1048,7 @@ RectTransform:
   - {fileID: 898015865}
   - {fileID: 1706055466}
   m_Father: {fileID: 911319639}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2172,6 +2172,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1170623363}
   - {fileID: 530965428}
   m_Father: {fileID: 0}
   m_RootOrder: 24
@@ -2193,11 +2194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86aea89f3e2388948be12ef6517d4e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprVazio: {fileID: 21300000, guid: 5d08ffc3482c9164d868a37a68427643, type: 3}
-  sprCheio: {fileID: 21300000, guid: 57bf55e87b2eb434ab9092f160da070a, type: 3}
-  spriteSize: 64
-  margin: 32
-  WinUIObject: {fileID: 530965427}
+  winUIObject: {fileID: 530965427}
+  gameUIObject: {fileID: 1170623361}
 --- !u!1 &915492148
 GameObject:
   m_ObjectHideFlags: 0
@@ -2610,6 +2608,74 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factor: 1
+--- !u!1 &1170623361
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1170623363}
+  - component: {fileID: 1170623362}
+  - component: {fileID: 1170623364}
+  m_Layer: 5
+  m_Name: GameScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!225 &1170623362
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170623361}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!224 &1170623363
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170623361}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 911319639}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1170623364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170623361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f6b1cd7ede70b44bed224dc1257a50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultHidden: 1
+  canvasRef: {fileID: 911319635}
+  sprVazio: {fileID: 21300000, guid: 5d08ffc3482c9164d868a37a68427643, type: 3}
+  sprCheio: {fileID: 21300000, guid: 57bf55e87b2eb434ab9092f160da070a, type: 3}
+  spriteSize: 64
+  margin: 32
 --- !u!1 &1191966643
 GameObject:
   m_ObjectHideFlags: 0

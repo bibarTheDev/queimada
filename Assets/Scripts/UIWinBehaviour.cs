@@ -49,6 +49,4 @@ public class UIWinBehaviour : MonoBehaviour
             break;   
         }
     }
-
-
 }
