@@ -8,6 +8,11 @@ public class UIManager : MonoBehaviour
     [Header("Childs References")]
     public GameObject winUIObject;
     public GameObject gameUIObject;
+    public GameObject overlayUIObject;
+    
+    private UIWinBehaviour winUIBehaviour;
+    private UIGameBehaviour gameUIBehaviour;
+    private UIOverlayBehaviour overlayUIBehaviour;
 
     // listeners
     void Awake()
@@ -28,12 +33,18 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("winUIObject check on " + gameObject.name + ": " + winUIObject.name);
         Debug.Log("gameUIObject check on " + gameObject.name + ": " + gameUIObject.name);
+        Debug.Log("overlayUIObject check on " + gameObject.name + ": " + overlayUIObject.name);
+
+        winUIBehaviour = winUIObject.GetComponent<UIWinBehaviour>();
+        gameUIBehaviour = gameUIObject.GetComponent<UIGameBehaviour>();
+        overlayUIBehaviour = overlayUIObject.GetComponent<UIOverlayBehaviour>();
     }
 
     public void onGameStartFunction()
     {
-        gameUIObject.GetComponent<UIGameBehaviour>().show();
-        winUIObject.GetComponent<UIWinBehaviour>().hide();
+        gameUIBehaviour.show();
+        winUIBehaviour.hide();
+        overlayUIBehaviour.hide();
     }
 
     public void onPontoFunction(Equipes team)
@@ -43,7 +54,8 @@ public class UIManager : MonoBehaviour
 
     public void onGameEndFunction(Equipes team)
     {
-        gameUIObject.GetComponent<UIGameBehaviour>().hide();
-        winUIObject.GetComponent<UIWinBehaviour>().show(team);
+        gameUIBehaviour.hide();
+        winUIBehaviour.show(team);
+        overlayUIBehaviour.show();
     }
 }
