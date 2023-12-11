@@ -42,5 +42,5 @@ public class MusicManager : MonoBehaviour
 
     void onEnterMenuFunction() { setMusicLow(); }
     void onGameStartFunction() { setMusicHigh(); }
-    void onGameEndFunction(Equipes e) { setMusicLow(); }
+    void onGameEndFunction(Equipes e) { setMusicHigh(); }
 }
