@@ -36,6 +36,8 @@ public class characterBehaviour : MonoBehaviour
 
     protected CharacterController controller = null;
 
+    [Header("Ball position reference")]
+    public GameObject bolaPosition;
     
     [Header("Movement Reference (na duvida, use a MainCamera)")]
     public GameObject movementReferenceObj;
@@ -45,7 +47,7 @@ public class characterBehaviour : MonoBehaviour
     protected void Start()
     {
         // posicao do objeto bolaPosition
-        heldBolaPostion = gameObject.transform.GetChild(1);
+        heldBolaPostion = bolaPosition.GetComponent<Transform>();
         // Debug.Log("bolaPosition check on " + gameObject.name + ": " + heldBolaPostion.name);
 
         controller = gameObject.GetComponent<CharacterController>();

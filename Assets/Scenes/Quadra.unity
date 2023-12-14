@@ -2921,6 +2921,7 @@ MonoBehaviour:
   moveSpeed: 12
   throwStrength: 2000
   pickupRange: 4
+  bolaPosition: {fileID: 1415720208}
   movementReferenceObj: {fileID: 963194225}
   cursorPos: {fileID: 428831683}
   controlType: 1
@@ -3984,6 +3985,7 @@ MonoBehaviour:
   moveSpeed: 12
   throwStrength: 2000
   pickupRange: 4
+  bolaPosition: {fileID: 1089812537}
   movementReferenceObj: {fileID: 963194225}
   cursorPos: {fileID: 1443931604}
   controlType: 0
