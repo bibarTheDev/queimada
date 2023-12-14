@@ -15,18 +15,21 @@ public class UITitleBehaviour : UIGenericBehaviour
     public void jogarClick()
     {
         Debug.Log("Jogar");
+        SFXManager.instance.playButtonClick();
         onJogarClick?.Invoke();
     }
     
     public void instrucoesClick()
     {
         Debug.Log("Instrucoes");
+        SFXManager.instance.playButtonClick();
         onInstrucoesClick?.Invoke();
     }
     
     public void sairClick()
     {
         Debug.Log("Eh o quitas");
+        SFXManager.instance.playButtonClick();
         onSairClick?.Invoke();
     }
 }

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Bola
   - Quadra
+  - Parede
+  - Character
   layers:
   - Default
   - TransparentFX

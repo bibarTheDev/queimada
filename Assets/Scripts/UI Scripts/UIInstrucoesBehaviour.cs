@@ -11,6 +11,7 @@ public class UIInstrucoesBehaviour : UIGenericBehaviour
     public void voltarClick()
     {
         Debug.Log("Voltar");
+        SFXManager.instance.playButtonClick();
         onVoltarInstrClick?.Invoke();
     }
 }

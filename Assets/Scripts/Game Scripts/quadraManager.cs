@@ -50,7 +50,15 @@ public class quadraManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        instance = this;
+        // singleton setup
+        if(instance == null){
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else{
+            Debug.LogWarning(gameObject + ": impedido de ser criado");
+            Destroy(gameObject);
+        }
         // esse metodo precisa de um delay para dar tempo de tudo carrregar
         Invoke(nameof(setupQuadra), 0.2f);
         subToEvents();
@@ -83,6 +91,10 @@ public class quadraManager : MonoBehaviour
         Debug.Log(scores[ponto] + "/" + pontuacaoMax);
 
         if(scores[ponto] >= pontuacaoMax){
+            // sfx
+            SFXManager.instance.playEndGame();
+
+            // state change e trigger
             state = QuadraStates.EndOfGame;
             onGameEnd?.Invoke(ponto);
         }
@@ -94,11 +106,15 @@ public class quadraManager : MonoBehaviour
             return;
         }
 
+        // sfx
+        SFXManager.instance.playStartGame();
+
+            // state change e trigger
         state = QuadraStates.Game;
         onGameStart?.Invoke();
     }
 
-    void onSairClickFunction() { Debug.Log("falo papitor");Application.Quit(); }
+    void onSairClickFunction() { Application.Quit(); }
 
     void onContinueWinClickFunction()
     {

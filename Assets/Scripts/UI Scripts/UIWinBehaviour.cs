@@ -43,6 +43,7 @@ public class UIWinBehaviour : UIGenericBehaviour
     public void continueClick()
     {
         Debug.Log("Contiue");
+        SFXManager.instance.playButtonClick();
         onContinueWinClick?.Invoke();
     }
 }

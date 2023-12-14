@@ -72,6 +72,10 @@ public class characterBehaviour : MonoBehaviour
 
         // se foi atingido por uma bola e se ela era lethal (em relacao a equipe desse personagem)
         if(obj.tag == "Bola" && obj.GetComponent<bolaBehaviour>().isLethal(characterTeam)){
+            // sfx
+            SFXManager.instance.playBallHitPlayer();
+
+            // lida com a bola e dispara o evento
             obj.GetComponent<bolaBehaviour>().resetLethality();
             onQueima?.Invoke(characterTeam);
         }

@@ -14,15 +14,29 @@ public class bolaBehaviour : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
     }
+
     void OnCollisionEnter(Collision coll)
     {
-        // se colidou com a quadra
-        if(coll.gameObject.tag == "Quadra"){
+        // com quem colidou
+        switch(coll.gameObject.tag){
+        case "Quadra":
             // reseta arremesso
             throwerTeam = Equipes.None;
+            // sfx
+            SFXManager.instance.playBallHitGround();
+            break;
+
+        case "Parede":
+            SFXManager.instance.playBallHitWall();
+            // sfx
+            break;
+
+        case "Character":
+            // sfx (deve ocorrer em playerBehaviour para garantir que nao vai dar problema)
+            // SFXManager.instance.playBallHitPlayer();
+            break;            
         }
     }
-
 
     public bool isBeignHeld() { return isHeld; }
     public bool isLethal(Equipes targetTeam) { return throwerTeam != Equipes.None && throwerTeam != targetTeam; }

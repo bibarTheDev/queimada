@@ -31,12 +31,12 @@ public class MusicManager : MonoBehaviour
 
     void setMusicLow()
     { 
-        musicSource.volume = 0.5f;
+        musicSource.volume = 0.4f;
         musicSource.pitch = 0.9f;
     }
     void setMusicHigh()
     {
-        musicSource.volume = 1.0f;
+        musicSource.volume = 0.65f;
         musicSource.pitch = 1.0f;
     }
 
